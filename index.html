@@ -7,22 +7,143 @@
     <meta name="google-adsense-account" content="ca-pub-4227618528653068">
     <title>Trending News</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 0; text-align: center; }
-        .container { width: 90%; max-width: 800px; margin: auto; padding: 20px; }
-        .news-item { background: white; padding: 15px; margin: 10px 0; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: left; }
-        .news-item img { width: 100%; height: auto; border-radius: 5px; }
-        .news-item h3 { margin: 10px 0; font-size: 18px; }
-        .news-item a { text-decoration: none; color: #007bff; font-weight: bold; }
-        select { padding: 8px; font-size: 16px; margin: 10px; }
+        :root {
+            --bg-color: #f4f4f4;
+            --text-color: #333;
+            --card-bg: white;
+            --card-shadow: rgba(0, 0, 0, 0.1);
+            --button-bg: #007bff;
+            --button-text: white;
+        }
+
+        /* Dark Mode Variables */
+        [data-theme="dark"] {
+            --bg-color: #1e1e1e;
+            --text-color: #f4f4f4;
+            --card-bg: #2a2a2a;
+            --card-shadow: rgba(255, 255, 255, 0.1);
+            --button-bg: #444;
+            --button-text: white;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        /* Dark Mode Toggle Button */
+        .dark-mode-toggle {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            background: var(--button-bg);
+            color: var(--button-text);
+            cursor: pointer;
+            margin: 10px;
+            transition: background 0.3s;
+        }
+
+        .dark-mode-toggle:hover {
+            background: #0056b3;
+        }
+
+        /* Stylish Dropdown */
+        select {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        select:hover {
+            background: #007bff;
+            color: white;
+        }
+
+        /* News Cards */
+        .news-item {
+            background: var(--card-bg);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px var(--card-shadow);
+            text-align: left;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+
+        .news-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .news-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .news-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .news-item h3 {
+            margin: 10px 0;
+            font-size: 20px;
+        }
+
+        .news-item a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        /* Loading Spinner */
+        #spinner {
+            display: block;
+            margin: 50px auto;
+            animation: spin 1.5s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .container { width: 95%; }
+        }
     </style>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4227618528653068"
+     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4227618528653068"
      crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="container">
         <h2>🔥 Trending News</h2>
+        
+        <!-- Dropdown to Select Category -->
         <label for="category">Select Category:</label>
-        <select id="category" onchange="fetchNews()">
+        <select id="category" onchange="fetchNews(false)">
             <option value="general">General</option>
             <option value="technology">Technology</option>
             <option value="business">Business</option>
@@ -31,45 +152,82 @@
             <option value="health">Health</option>
             <option value="science">Science</option>
         </select>
+
+        <!-- Dark Mode Toggle Button -->
+        <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
+
+        <!-- News Container -->
+        <div id="spinner">
+            <svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="25" cy="25" r="20" stroke="#007bff" stroke-width="5" fill="none" />
+            </svg>
+        </div>
+
         <div id="news-container">Loading news...</div>
     </div>
 
     <script>
-        //const NEWS_URL = "https://news-aggregator-3z2g.onrender.com/news"; // Use our local backend
-//const NEWS_URL = "http://localhost:5000/news"; // Use our local backend
+        let lastCategory = ""; // Store last selected category
 
+        // Toggle Dark Mode
+        function toggleDarkMode() {
+            const currentTheme = document.body.getAttribute("data-theme");
+            const newTheme = currentTheme === "dark" ? "light" : "dark";
+            document.body.setAttribute("data-theme", newTheme);
+            localStorage.setItem("theme", newTheme); // Save user preference
+        }
 
-async function fetchNews() {
-    const category = document.getElementById("category").value;
-    const NEWS_URL = `https://news-aggregator-3z2g.onrender.com/news?category=${category}`; // Request from backend
+        // Load saved theme from LocalStorage
+        window.onload = () => {
+            const savedTheme = localStorage.getItem("theme") || "light";
+            document.body.setAttribute("data-theme", savedTheme);
+        };
 
-    try {
-        const response = await fetch(NEWS_URL);
-        const data = await response.json();
-        const newsContainer = document.getElementById("news-container");
-        newsContainer.innerHTML = "";
+        // Fetch news
+        async function fetchNews(forceRefresh = false) {
+            const category = document.getElementById("category").value;
+            if (!forceRefresh && category === lastCategory) return; // Prevent duplicate API calls
+            lastCategory = category;
 
-        data.articles.forEach(article => {
-            if (article.urlToImage) {
-                const newsItem = `
-                    <div class="news-item">
-                        <img src="${article.urlToImage}" alt="News">
-                        <h3>${article.title}</h3>
-                        <p>${article.description || "No description available."}</p>
-                        <a href="${article.url}" target="_blank">Read More</a>
-                    </div>`;
-                newsContainer.innerHTML += newsItem;
+           // const NEWS_URL = `http://localhost:5000/news?category=${category}&refresh=${forceRefresh}`;
+           const NEWS_URL = `https://news-aggregator-3z2g.onrender.com/news?category=${category}&refresh=${forceRefresh}`;
+
+            document.getElementById("spinner").style.display = "block"; // Show spinner
+            document.getElementById("news-container").classList.remove("show"); // Hide news container
+
+            try {
+                const response = await fetch(NEWS_URL);
+                const data = await response.json();
+                const newsContainer = document.getElementById("news-container");
+                newsContainer.innerHTML = "";
+
+                data.articles.forEach((article, index) => {
+                    if (article.urlToImage) {
+                        const newsItem = `
+                            <div class="news-item">
+                                <img src="${article.urlToImage}" alt="News">
+                                <h3>${article.title}</h3>
+                                <p>${article.description || "No description available."}</p>
+                                <a href="${article.url}" target="_blank">Read More</a>
+                            </div>`;
+                        newsContainer.innerHTML += newsItem;
+
+                        // Fade-in effect for each article
+                        setTimeout(() => {
+                            document.querySelectorAll('.news-item')[index].classList.add('visible');
+                        }, 200 * index); // Staggered effect
+                    }
+                });
+
+                document.getElementById("spinner").style.display = "none"; // Hide spinner
+                document.getElementById("news-container").classList.add("show"); // Show news container
+            } catch (error) {
+                console.error("Error fetching news:", error);
+                document.getElementById("news-container").innerHTML = "Failed to load news.";
             }
-        });
-    } catch (error) {
-        console.error("Error fetching news:", error);
-        document.getElementById("news-container").innerHTML = "Failed to load news.";
-    }
-}
+        }
 
-fetchNews();
-
-        setInterval(fetchNews, 300000); // Refresh every 5 minutes
+        fetchNews(false); // Load news initially
     </script>
 </body>
 </html>
