@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trending News</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 0; text-align: center; }
+        .container { width: 90%; max-width: 800px; margin: auto; padding: 20px; }
+        .news-item { background: white; padding: 15px; margin: 10px 0; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: left; }
+        .news-item img { width: 100%; height: auto; border-radius: 5px; }
+        .news-item h3 { margin: 10px 0; font-size: 18px; }
+        .news-item a { text-decoration: none; color: #007bff; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🔥 Trending News</h2>
+        <div id="news-container">Loading news...</div>
+    </div>
+
+    <script>
+        const API_KEY = 'fa983de4b8764400b33d69bddd8168e0'; // Replace with your API key
+        const NEWS_URL = "http://localhost:5000/news"; // Use our local backend
+
+async function fetchNews() {
+    try {
+        const response = await fetch(NEWS_URL);
+        const data = await response.json();
+        document.getElementById("news-container").innerHTML = data.articles.map(article => `
+            <div class="news-item">
+                <img src="${article.urlToImage}" alt="News">
+                <h3>${article.title}</h3>
+                <p>${article.description || "No description available."}</p>
+                <a href="${article.url}" target="_blank">Read More</a>
+            </div>
+        `).join("");
+    } catch (error) {
+        console.error("Error fetching news:", error);
+        document.getElementById("news-container").innerHTML = "Failed to load news.";
+    }
+}
+
+fetchNews();
+
+
+        fetchNews();
+        setInterval(fetchNews, 300000); // Refresh every 5 minutes
+    </script>
+</body>
+</html>
