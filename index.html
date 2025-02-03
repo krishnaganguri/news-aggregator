@@ -13,6 +13,7 @@
         .news-item img { width: 100%; height: auto; border-radius: 5px; }
         .news-item h3 { margin: 10px 0; font-size: 18px; }
         .news-item a { text-decoration: none; color: #007bff; font-weight: bold; }
+        select { padding: 8px; font-size: 16px; margin: 10px; }
     </style>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4227618528653068"
      crossorigin="anonymous"></script>
@@ -20,24 +21,46 @@
 <body>
     <div class="container">
         <h2>🔥 Trending News</h2>
+        <label for="category">Select Category:</label>
+        <select id="category" onchange="fetchNews()">
+            <option value="general">General</option>
+            <option value="technology">Technology</option>
+            <option value="business">Business</option>
+            <option value="sports">Sports</option>
+            <option value="entertainment">Entertainment</option>
+            <option value="health">Health</option>
+            <option value="science">Science</option>
+        </select>
         <div id="news-container">Loading news...</div>
     </div>
 
     <script>
-        const NEWS_URL = "https://news-aggregator-3z2g.onrender.com/news"; // Use our local backend
+        //const NEWS_URL = "https://news-aggregator-3z2g.onrender.com/news"; // Use our local backend
+//const NEWS_URL = "http://localhost:5000/news"; // Use our local backend
+
 
 async function fetchNews() {
+    const category = document.getElementById("category").value;
+    const NEWS_URL = `https://news-aggregator-3z2g.onrender.com/news?category=${category}`; // Request from backend
+
     try {
         const response = await fetch(NEWS_URL);
         const data = await response.json();
-        document.getElementById("news-container").innerHTML = data.articles.map(article => `
-            <div class="news-item">
-                <img src="${article.urlToImage}" alt="News">
-                <h3>${article.title}</h3>
-                <p>${article.description || "No description available."}</p>
-                <a href="${article.url}" target="_blank">Read More</a>
-            </div>
-        `).join("");
+        const newsContainer = document.getElementById("news-container");
+        newsContainer.innerHTML = "";
+
+        data.articles.forEach(article => {
+            if (article.urlToImage) {
+                const newsItem = `
+                    <div class="news-item">
+                        <img src="${article.urlToImage}" alt="News">
+                        <h3>${article.title}</h3>
+                        <p>${article.description || "No description available."}</p>
+                        <a href="${article.url}" target="_blank">Read More</a>
+                    </div>`;
+                newsContainer.innerHTML += newsItem;
+            }
+        });
     } catch (error) {
         console.error("Error fetching news:", error);
         document.getElementById("news-container").innerHTML = "Failed to load news.";
@@ -46,8 +69,6 @@ async function fetchNews() {
 
 fetchNews();
 
-
-        fetchNews();
         setInterval(fetchNews, 300000); // Refresh every 5 minutes
     </script>
 </body>
