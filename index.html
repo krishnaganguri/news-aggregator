@@ -3,9 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latest Tech News in 2025 | Breaking Updates & Innovations</title>
+    <meta name="description" content="Stay updated with the latest tech news in 2025. Discover breaking updates on AI, gadgets, and innovations.">
+    <meta name="keywords" content="tech news, latest tech updates, AI news, technology trends 2025, gadgets news">
+    <meta name="robots" content="index, follow">
     <meta name="google-site-verification" content="XBNdGxLgqQVXeKC1TbLv3dxhFKTx_KwZ74K7elN7j1c" />
     <meta name="google-adsense-account" content="ca-pub-4227618528653068">
-    <title>Trending News</title>
+    
+    <link rel="canonical" href="https://www.yoursite.com/latest-tech-news-2025" />
+
+    <!-- Schema Markup (JSON-LD) for NewsArticle -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "NewsArticle",
+      "headline": "Latest Tech News in 2025 | Breaking Updates & Innovations",
+      "description": "Stay updated with the latest tech news in 2025. Discover breaking updates on AI, gadgets, and innovations.",
+      "image": "https://www.yoursite.com/images/tech-news-2025.jpg",  <!-- Add your image URL here -->
+      "author": {
+        "@type": "Person",
+        "name": "Krishna Ganguri"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "News Aggregator",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.yoursite.com/images/logo.png"  <!-- Replace with your logo URL -->
+        }
+      },
+      "datePublished": "2025-01-01",  <!-- Adjust with the actual date -->
+      "dateModified": "2025-01-01"  <!-- Adjust with the actual modification date -->
+    }
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4227618528653068"
+    crossorigin="anonymous"></script>
+    <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-4227618528653068"
+     data-ad-format="auto"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-4227618528653068",
+            enable_page_level_ads: true
+        });
+    </script>
     <style>
         :root {
             --bg-color: #f4f4f4;
@@ -60,7 +102,6 @@
             background: #0056b3;
         }
 
-        /* Stylish Dropdown */
         select {
             padding: 10px;
             font-size: 16px;
@@ -77,7 +118,6 @@
             color: white;
         }
 
-        /* News Cards */
         .news-item {
             background: var(--card-bg);
             padding: 15px;
@@ -117,7 +157,6 @@
             font-weight: bold;
         }
 
-        /* Loading Spinner */
         #spinner {
             display: block;
             margin: 50px auto;
@@ -129,19 +168,16 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Responsive Design */
         @media (max-width: 600px) {
             .container { width: 95%; }
         }
     </style>
-     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4227618528653068"
-     crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="container">
-        <h2>🔥 Trending News</h2>
-        
-        <!-- Dropdown to Select Category -->
+        <h1>🔥 Latest Tech News and Updates in 2025</h1>
+        <p>Stay up-to-date with the most relevant news about the **latest tech trends**, **AI innovations**, and more. Discover **breaking news** and updates on **gadgets**, **software**, and **technology** in 2025.</p>
+
         <label for="category">Select Category:</label>
         <select id="category" onchange="fetchNews(false)">
             <option value="general">General</option>
@@ -156,13 +192,14 @@
         <!-- Dark Mode Toggle Button -->
         <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
 
-        <!-- News Container -->
+        <!-- Loading Spinner -->
         <div id="spinner">
             <svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="25" cy="25" r="20" stroke="#007bff" stroke-width="5" fill="none" />
             </svg>
         </div>
 
+        <!-- News Container -->
         <div id="news-container">Loading news...</div>
     </div>
 
@@ -189,8 +226,8 @@
             if (!forceRefresh && category === lastCategory) return; // Prevent duplicate API calls
             lastCategory = category;
 
-           // const NEWS_URL = `http://localhost:5000/news?category=${category}&refresh=${forceRefresh}`;
-           const NEWS_URL = `https://news-aggregator-3z2g.onrender.com/news?category=${category}&refresh=${forceRefresh}`;
+            //const NEWS_URL = `http://localhost:5000/news?category=${category}&refresh=${forceRefresh}`;
+            const NEWS_URL = `https://news-aggregator-3z2g.onrender.com/news?category=${category}&refresh=${forceRefresh}`;
 
             document.getElementById("spinner").style.display = "block"; // Show spinner
             document.getElementById("news-container").classList.remove("show"); // Hide news container
@@ -205,7 +242,7 @@
                     if (article.urlToImage) {
                         const newsItem = `
                             <div class="news-item">
-                                <img src="${article.urlToImage}" alt="News">
+                                <img src="${article.urlToImage}" alt="News image: ${article.title}">
                                 <h3>${article.title}</h3>
                                 <p>${article.description || "No description available."}</p>
                                 <a href="${article.url}" target="_blank">Read More</a>
