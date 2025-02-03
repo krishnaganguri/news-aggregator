@@ -7,10 +7,10 @@
     <meta name="description" content="Stay updated with the latest tech news in 2025. Discover breaking updates on AI, gadgets, and innovations.">
     <meta name="keywords" content="tech news, latest tech updates, AI news, technology trends 2025, gadgets news">
     <meta name="robots" content="index, follow">
-    <meta name="google-site-verification" content="XBNdGxLgqQVXeKC1TbLv3dxhFKTx_KwZ74K7elN7j1c" />
+    <meta name="google-site-verification" content="XBNdGxLgqQVXeKC1TbLv3dxhFKTx_KwZ74K7elN7j1c">
     <meta name="google-adsense-account" content="ca-pub-4227618528653068">
-    
-    <link rel="canonical" href="https://www.yoursite.com/latest-tech-news-2025" />
+
+    <link rel="canonical" href="https://www.yoursite.com/latest-tech-news-2025">
 
     <!-- Schema Markup (JSON-LD) for NewsArticle -->
     <script type="application/ld+json">
@@ -22,11 +22,11 @@
       "image": "https://www.yoursite.com/images/tech-news-2025.jpg",  <!-- Add your image URL here -->
       "author": {
         "@type": "Person",
-        "name": "Krishna Ganguri"
+        "name": "Your Name or Brand"
       },
       "publisher": {
         "@type": "Organization",
-        "name": "News Aggregator",
+        "name": "Your Website Name",
         "logo": {
           "@type": "ImageObject",
           "url": "https://www.yoursite.com/images/logo.png"  <!-- Replace with your logo URL -->
@@ -36,18 +36,11 @@
       "dateModified": "2025-01-01"  <!-- Adjust with the actual modification date -->
     }
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4227618528653068"
-    crossorigin="anonymous"></script>
-    <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-4227618528653068"
-     data-ad-format="auto"></ins>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({
-            google_ad_client: "ca-pub-4227618528653068",
-            enable_page_level_ads: true
-        });
-    </script>
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4227618528653068"
+    crossorigin="anonymous"></script> -->
+   
+
+
     <style>
         :root {
             --bg-color: #f4f4f4;
@@ -198,6 +191,13 @@
                 <circle cx="25" cy="25" r="20" stroke="#007bff" stroke-width="5" fill="none" />
             </svg>
         </div>
+        <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-4227618528653068"
+     data-ad-format="auto"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 
         <!-- News Container -->
         <div id="news-container">Loading news...</div>
@@ -226,8 +226,8 @@
             if (!forceRefresh && category === lastCategory) return; // Prevent duplicate API calls
             lastCategory = category;
 
-            //const NEWS_URL = `http://localhost:5000/news?category=${category}&refresh=${forceRefresh}`;
-            const NEWS_URL = `https://news-aggregator-3z2g.onrender.com/news?category=${category}&refresh=${forceRefresh}`;
+           // const NEWS_URL = `http://localhost:5000/news?category=${category}&refresh=${forceRefresh}`;
+           const NEWS_URL = `https://news-aggregator-3z2g.onrender.com/news?category=${category}&refresh=${forceRefresh}`;
 
             document.getElementById("spinner").style.display = "block"; // Show spinner
             document.getElementById("news-container").classList.remove("show"); // Hide news container
